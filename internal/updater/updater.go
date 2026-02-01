@@ -14,7 +14,10 @@ import (
 )
 
 // Version is set at build time
-var Version = "dev"
+var Version = "0.0.1"
+
+// GitHubRepo is the official repository (hardcoded, not configurable)
+const GitHubRepo = "niosz/nebula"
 
 // ReleaseInfo contains release information
 type ReleaseInfo struct {
@@ -44,7 +47,6 @@ type UpdateInfo struct {
 
 // Updater handles self-updates
 type Updater struct {
-	githubRepo    string
 	currentVer    string
 	enabled       bool
 	checkInterval time.Duration
@@ -53,13 +55,17 @@ type Updater struct {
 }
 
 // NewUpdater creates a new updater
-func NewUpdater(githubRepo string, enabled bool, checkInterval time.Duration) *Updater {
+func NewUpdater(enabled bool, checkInterval time.Duration) *Updater {
 	return &Updater{
-		githubRepo:    githubRepo,
 		currentVer:    Version,
 		enabled:       enabled,
 		checkInterval: checkInterval,
 	}
+}
+
+// GetGitHubRepo returns the hardcoded GitHub repository
+func GetGitHubRepo() string {
+	return GitHubRepo
 }
 
 // CheckForUpdate checks for a new version
@@ -84,7 +90,7 @@ func (u *Updater) CheckForUpdate() (UpdateInfo, error) {
 	info.LatestVer = release.TagName
 	info.ReleaseDate = release.PublishedAt
 	info.Changelog = release.Body
-	info.ReleaseURL = fmt.Sprintf("https://github.com/%s/releases/tag/%s", u.githubRepo, release.TagName)
+	info.ReleaseURL = fmt.Sprintf("https://github.com/%s/releases/tag/%s", GitHubRepo, release.TagName)
 
 	// Compare versions
 	if u.isNewerVersion(release.TagName, u.currentVer) {
@@ -142,7 +148,7 @@ func (u *Updater) Apply() error {
 
 // getLatestRelease fetches the latest release from GitHub
 func (u *Updater) getLatestRelease() (*ReleaseInfo, error) {
-	url := fmt.Sprintf("https://api.github.com/repos/%s/releases/latest", u.githubRepo)
+	url := fmt.Sprintf("https://api.github.com/repos/%s/releases/latest", GitHubRepo)
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {

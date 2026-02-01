@@ -110,7 +110,6 @@ func main() {
 
 	// Initialize updater
 	upd := updater.NewUpdater(
-		appConfig.Updater.GithubRepo,
 		appConfig.Updater.Enabled,
 		appConfig.Updater.CheckInterval,
 	)

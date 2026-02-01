@@ -74,7 +74,6 @@ type PackagesConfig struct {
 // UpdaterConfig holds updater configuration
 type UpdaterConfig struct {
 	Enabled       bool          `mapstructure:"enabled"`
-	GithubRepo    string        `mapstructure:"github_repo"`
 	CheckInterval time.Duration `mapstructure:"check_interval"`
 }
 
@@ -169,7 +168,6 @@ func setDefaults(v *viper.Viper) {
 
 	// Updater defaults
 	v.SetDefault("updater.enabled", true)
-	v.SetDefault("updater.github_repo", "nebula/nebula")
 	v.SetDefault("updater.check_interval", "24h")
 
 	// Logging defaults

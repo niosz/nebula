@@ -116,6 +116,7 @@ func (h *SystemHandler) ApplyUpdate(c *gin.Context) {
 // @Router /api/v1/version [get]
 func (h *SystemHandler) GetVersion(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
-		"version": h.updater.GetVersion(),
+		"version":    h.updater.GetVersion(),
+		"repository": "https://github.com/" + updater.GitHubRepo,
 	})
 }

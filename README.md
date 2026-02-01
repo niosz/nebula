@@ -77,8 +77,8 @@ packages:
 
 updater:
   enabled: true
-  github_repo: "nebula/nebula"
   check_interval: 24h
+  # Il repository GitHub è hardcoded: niosz/nebula
 
 logging:
   level: "info"

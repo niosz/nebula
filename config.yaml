@@ -1,0 +1,48 @@
+server:
+  host: "0.0.0.0"
+  port: 8080
+  read_timeout: 10s
+  write_timeout: 10s
+  shutdown_timeout: 30s
+
+storage:
+  path: "./nebula.db"
+  metrics_retention: 1h
+  audit_retention: 168h  # 7 days
+
+auth:
+  enabled: false
+  username: "admin"
+  password: "changeme"
+
+metrics:
+  interval: 1s
+  history_size: 60
+
+terminal:
+  default_shell: ""
+  allowed_shells:
+    - bash
+    - zsh
+    - sh
+    - ksh
+    - cmd
+    - powershell
+  max_sessions: 10
+
+files:
+  root_path: "/"
+  max_upload_size: 104857600  # 100MB
+  allowed_extensions: []
+
+packages:
+  auto_detect: true
+
+updater:
+  enabled: true
+  github_repo: "nebula/nebula"
+  check_interval: 24h
+
+logging:
+  level: "info"
+  format: "json"

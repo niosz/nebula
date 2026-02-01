@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebula - System Administration</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span class="logo">&#9788;</span> NEBULA
+        </div>
+        <ul class="navbar-menu">
+            <li><a href="#" data-page="dashboard" class="active">Dashboard</a></li>
+            <li><a href="#" data-page="processes">Processes</a></li>
+            <li><a href="#" data-page="services">Services</a></li>
+            <li><a href="#" data-page="files">Files</a></li>
+            <li><a href="#" data-page="packages">Packages</a></li>
+            <li><a href="#" data-page="terminal">Terminal</a></li>
+        </ul>
+        <div class="navbar-actions">
+            <span id="privilege-status" class="privilege-indicator" title="Privilege status">🔒</span>
+            <button id="theme-toggle" class="btn-icon" title="Toggle theme">&#9790;</button>
+            <span id="connection-status" class="status-indicator"></span>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- Dashboard Page -->
+        <section id="page-dashboard" class="page active">
+            <div class="page-header">
+                <h1>System Dashboard</h1>
+                <div class="system-info">
+                    <span id="hostname"></span>
+                    <span id="os-info"></span>
+                    <span id="uptime"></span>
+                </div>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <h3>CPU Usage</h3>
+                        <span id="cpu-total" class="metric-value">0%</span>
+                    </div>
+                    <canvas id="cpu-chart"></canvas>
+                    <div id="cpu-cores" class="metric-details"></div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <h3>Memory</h3>
+                        <span id="memory-total" class="metric-value">0%</span>
+                    </div>
+                    <canvas id="memory-chart"></canvas>
+                    <div class="metric-details">
+                        <div class="detail-row">
+                            <span>Used:</span>
+                            <span id="memory-used">0 GB</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Free:</span>
+                            <span id="memory-free">0 GB</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Swap:</span>
+                            <span id="memory-swap">0 GB</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <h3>Disk Usage</h3>
+                    </div>
+                    <div id="disk-list" class="disk-list"></div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <h3>Network</h3>
+                    </div>
+                    <canvas id="network-chart"></canvas>
+                    <div id="network-list" class="network-list"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Processes Page -->
+        <section id="page-processes" class="page">
+            <div class="page-header">
+                <h1>Processes</h1>
+                <div class="search-box">
+                    <input type="text" id="process-search" placeholder="Search processes...">
+                </div>
+            </div>
+            <div class="table-container">
+                <table class="data-table" id="process-table">
+                    <thead>
+                        <tr>
+                            <th data-sort="pid">PID</th>
+                            <th data-sort="name">Name</th>
+                            <th data-sort="cpu">CPU %</th>
+                            <th data-sort="memory">Memory %</th>
+                            <th data-sort="user">User</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="process-list"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Services Page -->
+        <section id="page-services" class="page">
+            <div class="page-header">
+                <h1>System Services</h1>
+                <div class="search-box">
+                    <input type="text" id="service-search" placeholder="Search services...">
+                </div>
+            </div>
+            <div class="table-container">
+                <table class="data-table" id="service-table">
+                    <thead>
+                        <tr>
+                            <th data-sort="name">Name</th>
+                            <th data-sort="status">Status</th>
+                            <th data-sort="startup">Startup</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="service-list"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Files Page -->
+        <section id="page-files" class="page">
+            <div class="page-header">
+                <h1>File Manager</h1>
+                <div class="file-actions">
+                    <button id="btn-upload" class="btn btn-primary">Upload</button>
+                    <button id="btn-new-folder" class="btn">New Folder</button>
+                </div>
+            </div>
+            <div class="breadcrumb" id="file-breadcrumb"></div>
+            <div class="file-container">
+                <div class="file-list" id="file-list"></div>
+            </div>
+            <input type="file" id="file-upload-input" multiple style="display: none;">
+        </section>
+
+        <!-- Packages Page -->
+        <section id="page-packages" class="page">
+            <div class="page-header">
+                <h1>Package Manager</h1>
+                <div class="package-actions">
+                    <input type="text" id="package-search" placeholder="Search packages...">
+                    <button id="btn-search-packages" class="btn btn-primary">Search</button>
+                    <button id="btn-upgrade-all" class="btn">Upgrade All</button>
+                </div>
+            </div>
+            <div class="tabs">
+                <button class="tab active" data-tab="installed">Installed</button>
+                <button class="tab" data-tab="search-results">Search Results</button>
+            </div>
+            <div class="table-container">
+                <table class="data-table" id="package-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Version</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="package-list"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Terminal Page -->
+        <section id="page-terminal" class="page">
+            <div class="page-header">
+                <h1>Terminal</h1>
+                <div class="terminal-actions">
+                    <select id="shell-select"></select>
+                    <button id="btn-new-terminal" class="btn btn-primary">New Terminal</button>
+                </div>
+            </div>
+            <div class="terminal-tabs" id="terminal-tabs"></div>
+            <div class="terminal-container" id="terminal-container"></div>
+        </section>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Modal</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+            <div class="modal-footer" id="modal-footer"></div>
+        </div>
+    </div>
+
+    <!-- Credentials Modal -->
+    <div class="modal" id="credentials-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Autenticazione Richiesta</h2>
+            </div>
+            <div class="modal-body">
+                <p>Inserisci la password sudo/admin per eseguire operazioni privilegiate.</p>
+                <p style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.875rem;">
+                    Le credenziali verranno salvate in modo sicuro per le operazioni future.
+                </p>
+                <input type="password" id="sudo-password" placeholder="Password" style="width: 100%; margin-bottom: 0.5rem;">
+                <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: var(--text-secondary);">
+                    <input type="checkbox" id="remember-credentials" checked>
+                    Ricorda le credenziali
+                </label>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="Auth.closeCredentialsModal()">Annulla</button>
+                <button class="btn btn-primary" onclick="Auth.submitCredentials()">Conferma</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Scripts - Load libraries from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.min.js"></script>
+    <script src="/static/js/websocket.js"></script>
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/dashboard.js"></script>
+    <script src="/static/js/processes.js"></script>
+    <script src="/static/js/services.js"></script>
+    <script src="/static/js/files.js"></script>
+    <script src="/static/js/packages.js"></script>
+    <script src="/static/js/terminal.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

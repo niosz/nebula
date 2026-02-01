@@ -1,0 +1,4 @@
+/**
+ * xterm.js CSS - Load from CDN
+ */
+@import url('https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.min.css');

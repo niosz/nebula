@@ -86,6 +86,9 @@ const App = {
             case 'terminal':
                 // Terminal is ready
                 break;
+            case 'update':
+                UpdateManager.loadCurrentVersion();
+                break;
         }
     },
 
@@ -97,6 +100,7 @@ const App = {
         Files.init();
         Packages.init();
         TerminalManager.init();
+        UpdateManager.init();
     },
 
     setupTheme() {
@@ -153,6 +157,46 @@ const App = {
             toast.style.opacity = '0';
             setTimeout(() => toast.remove(), 300);
         }, 3000);
+    },
+
+    confirm(title, message) {
+        return new Promise((resolve) => {
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+            const modalFooter = document.getElementById('modal-footer');
+
+            modalTitle.textContent = title;
+            modalBody.innerHTML = `<p style="white-space: pre-wrap;">${message}</p>`;
+            
+            modalFooter.innerHTML = `
+                <button class="btn" id="confirm-cancel">Annulla</button>
+                <button class="btn btn-primary" id="confirm-ok">Conferma</button>
+            `;
+
+            modal.classList.add('active');
+
+            const cleanup = () => {
+                modal.classList.remove('active');
+                document.getElementById('confirm-cancel').onclick = null;
+                document.getElementById('confirm-ok').onclick = null;
+            };
+
+            document.getElementById('confirm-cancel').onclick = () => {
+                cleanup();
+                resolve(false);
+            };
+
+            document.getElementById('confirm-ok').onclick = () => {
+                cleanup();
+                resolve(true);
+            };
+
+            modal.querySelector('.modal-close').onclick = () => {
+                cleanup();
+                resolve(false);
+            };
+        });
     }
 };
 

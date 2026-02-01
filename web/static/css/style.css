@@ -757,3 +757,228 @@ textarea:focus {
 .package-actions input {
     width: 300px;
 }
+
+/* Update Page Styles */
+.update-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+}
+
+.update-card {
+    background: var(--bg-secondary);
+    border-radius: 0.75rem;
+    border: 1px solid var(--border);
+    overflow: hidden;
+}
+
+.update-card-header {
+    background: var(--bg-primary);
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.update-card-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.update-card-header-success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+}
+
+.update-card-body {
+    padding: 1.5rem;
+}
+
+.version-info {
+    text-align: center;
+}
+
+.version-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--accent);
+    margin-bottom: 1rem;
+}
+
+.version-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.update-description {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.btn-large {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+}
+
+.btn-outline:hover {
+    background: var(--bg-primary);
+}
+
+.update-status {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+.status-success {
+    color: #10b981;
+}
+
+.status-info {
+    color: var(--accent);
+}
+
+.status-error {
+    color: #ef4444;
+}
+
+.new-version-info {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.new-version-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #10b981;
+}
+
+.new-version-date {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+}
+
+.changelog {
+    background: var(--bg-primary);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.changelog h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.changelog pre {
+    margin: 0;
+    white-space: pre-wrap;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+}
+
+.update-actions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.update-actions .btn {
+    flex: 1;
+}
+
+.update-warning {
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    color: #f59e0b;
+}
+
+.progress-container {
+    text-align: center;
+}
+
+.progress-bar {
+    background: var(--bg-primary);
+    border-radius: 0.5rem;
+    height: 1.5rem;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.progress-fill {
+    background: linear-gradient(135deg, var(--accent) 0%, #6366f1 100%);
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s ease;
+    border-radius: 0.5rem;
+}
+
+.progress-text {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.repo-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.repo-info a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.repo-info a:hover {
+    text-decoration: underline;
+}
+
+.spinner {
+    display: inline-block;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    .update-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .update-actions {
+        flex-direction: column;
+    }
+}

@@ -19,6 +19,7 @@
             <li><a href="#" data-page="files">Files</a></li>
             <li><a href="#" data-page="packages">Packages</a></li>
             <li><a href="#" data-page="terminal">Terminal</a></li>
+            <li><a href="#" data-page="update">Update</a></li>
         </ul>
         <div class="navbar-actions">
             <span id="privilege-status" class="privilege-indicator" title="Privilege status">🔒</span>
@@ -193,6 +194,114 @@
             <div class="terminal-tabs" id="terminal-tabs"></div>
             <div class="terminal-container" id="terminal-container"></div>
         </section>
+
+        <!-- Update Page -->
+        <section id="page-update" class="page">
+            <div class="page-header">
+                <h1>Aggiornamenti</h1>
+            </div>
+            
+            <div class="update-container">
+                <!-- Current Version Card -->
+                <div class="update-card">
+                    <div class="update-card-header">
+                        <h3>&#9881; Versione Corrente</h3>
+                    </div>
+                    <div class="update-card-body">
+                        <div class="version-info">
+                            <div class="version-number" id="current-version">v0.0.0</div>
+                            <div class="version-details">
+                                <div class="detail-row">
+                                    <span>Build:</span>
+                                    <span id="build-date">-</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Go Version:</span>
+                                    <span id="go-version">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Check for Updates Card -->
+                <div class="update-card">
+                    <div class="update-card-header">
+                        <h3>&#8635; Verifica Aggiornamenti</h3>
+                    </div>
+                    <div class="update-card-body">
+                        <p class="update-description">
+                            Controlla se sono disponibili nuove versioni di Nebula.
+                        </p>
+                        <button id="btn-check-update" class="btn btn-primary btn-large">
+                            <span class="btn-icon">&#128269;</span>
+                            Verifica Aggiornamenti
+                        </button>
+                        <div id="update-status" class="update-status"></div>
+                    </div>
+                </div>
+
+                <!-- Available Update Card (hidden by default) -->
+                <div class="update-card update-available" id="update-available-card" style="display: none;">
+                    <div class="update-card-header update-card-header-success">
+                        <h3>&#10003; Nuova Versione Disponibile!</h3>
+                    </div>
+                    <div class="update-card-body">
+                        <div class="new-version-info">
+                            <div class="new-version-number" id="new-version">v0.0.0</div>
+                            <div class="new-version-date" id="new-version-date"></div>
+                        </div>
+                        <div class="changelog" id="changelog"></div>
+                        <div class="update-actions">
+                            <button id="btn-apply-update" class="btn btn-success btn-large">
+                                <span class="btn-icon">&#8681;</span>
+                                Installa Aggiornamento
+                            </button>
+                            <a id="release-link" href="#" target="_blank" class="btn btn-outline">
+                                Visualizza su GitHub
+                            </a>
+                        </div>
+                        <div class="update-warning">
+                            <strong>&#9888; Attenzione:</strong> Il server verrà riavviato automaticamente dopo l'aggiornamento.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Update Progress Card (hidden by default) -->
+                <div class="update-card" id="update-progress-card" style="display: none;">
+                    <div class="update-card-header">
+                        <h3>&#8635; Aggiornamento in Corso...</h3>
+                    </div>
+                    <div class="update-card-body">
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="update-progress"></div>
+                            </div>
+                            <div class="progress-text" id="update-progress-text">Preparazione...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Update History -->
+                <div class="update-card">
+                    <div class="update-card-header">
+                        <h3>&#128203; Informazioni Repository</h3>
+                    </div>
+                    <div class="update-card-body">
+                        <div class="repo-info">
+                            <div class="detail-row">
+                                <span>Repository:</span>
+                                <a id="repo-url" href="#" target="_blank">-</a>
+                            </div>
+                            <div class="detail-row">
+                                <span>Ultimo Controllo:</span>
+                                <span id="last-check">Mai</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Modal -->
@@ -246,6 +355,7 @@
     <script src="/static/js/files.js"></script>
     <script src="/static/js/packages.js"></script>
     <script src="/static/js/terminal.js"></script>
+    <script src="/static/js/update.js"></script>
     <script src="/static/js/app.js"></script>
 </body>
 </html>

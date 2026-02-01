@@ -14,7 +14,7 @@ import (
 )
 
 // Version is set at build time
-var Version = "0.0.1"
+var Version = "0.0.2"
 
 // GitHubRepo is the official repository (hardcoded, not configurable)
 const GitHubRepo = "niosz/nebula"
